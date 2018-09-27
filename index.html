@@ -1,38 +1,89 @@
+<!-- Created by @NATIVE-Inc -->
+
 <!doctype html>
 <html lang="en">
 <head>
-	<title>Leaflet Provider Demo</title>
+	<title>Carte Interactive</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<!-- Leaflet style. REQUIRED! -->
-	<link rel="stylesheet" href="http://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+	<link rel="stylesheet" href="leaflet-sidebar.css" />
 	<style>
 		html { height: 100% }
 		body { height: 100%; margin: 0; padding: 0;}
 		.map { height: 100% }
 	</style>
-	<!--Fork Me on Github ribbon, we're using the awsome version from simonwhitaker available at https://github.com/simonwhitaker/github-fork-ribbon-css  -->
-	<link rel="stylesheet" href="css/gh-fork-ribbon.css" />
-	<!--[if IE]>
-		<link rel="stylesheet" href="css/gh-fork-ribbon.ie.css" />
-	<![endif]-->
 </head>
 <body>
-	<div class="github-fork-ribbon-wrapper left">
-		<div class="github-fork-ribbon">
-			<a href="https://github.com/leaflet-extras/leaflet-providers">Fork me on GitHub</a>
-		</div>
-	</div>
-	<div id="map" class="map"></div>
+	
+	<!-- This is the sidebar  -->
+    <div id="sidebar" class="sidebar collapsed">
+        <!-- Nav tabs -->
+        <div class="sidebar-tabs">
+            <ul role="tablist">
+                <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+                <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
+                <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
+                <li><a href="https://github.com/Turbo87/sidebar-v2" role="tab" target="_blank"><i class="fa fa-github"></i></a></li>
+            </ul>
 
+            <ul role="tablist">
+                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+            </ul>
+        </div>
+
+        <!-- Tab panes -->
+        <div class="sidebar-content">
+            <div class="sidebar-pane" id="home">
+                <h1 class="sidebar-header">
+                    sidebar-v2
+                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+
+                <p>
+                    <a onclick="gotocountry('af')"> Afghanistan</a>
+                    <a onclick="gotocountry('tn')"> Tunisia</a>
+                </p>
+
+                <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+
+                <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+
+                <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+
+                <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            </div>
+
+            <div class="sidebar-pane" id="profile">
+                <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+
+            <div class="sidebar-pane" id="messages">
+                <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+
+            <div class="sidebar-pane" id="settings">
+                <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+        </div>
+    </div>
+	<!-- end of sidebar -->
+
+	<!-- The map goes here -->
+    <div id="map" class="map"></div>
+    <!-- end of the map -->
+
+    <!-- The scripts go here -->
 	<script src="http://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 	<script src="leaflet-providers.js"></script>
+	<script src="leaflet-sidebar.js"></script>
 	<script>
 		var map = L.map('map', {
-			center: [48, -3],
-			zoom: 5,
-			zoomControl: false
+			center: [7.3, 12.3],
+			zoom: 6
 		});
 
 		var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
@@ -80,7 +131,21 @@
 			'Geoportail France Parcels': L.tileLayer.provider('GeoportailFrance.parcels')
 		};
 
-		L.control.layers(baseLayers, overlayLayers, {collapsed: false}).addTo(map);
+		L.control.layers(baseLayers, overlayLayers, {collapsed: true}).addTo(map);
+
+
+		L.control.sidebar('sidebar').addTo(map);
+
+		function gotocountry (c){
+        // you get  afghanistan coordinates from google 
+        // this is how to update information on the map through
+         if(c=='af')
+         map.setView(new L.LatLng(34.5333, 69.1333), 6);
+         if(c=='tn')
+         map.setView(new L.LatLng(34,9), 6);
+        return;
+        }
+
 
 		// resize layers control to fit into view.
 		function resizeLayerControl () {
@@ -93,5 +158,7 @@
 		map.on('resize', resizeLayerControl);
 		resizeLayerControl();
 	</script>
+	<!-- end of scripts -->
+
 </body>
 </html>
