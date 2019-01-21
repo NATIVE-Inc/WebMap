@@ -26,8 +26,8 @@
             <ul role="tablist">
                 <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
                 <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
-                <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
-                <li><a href="https://github.com/Turbo87/sidebar-v2" role="tab" target="_blank"><i class="fa fa-github"></i></a></li>
+                <!-- <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
+                <li><a href="https://github.com/Turbo87/sidebar-v2" role="tab" target="_blank"><i class="fa fa-github"></i></a></li> -->
             </ul>
 
             <ul role="tablist">
@@ -44,13 +44,10 @@
                 </h1>
 
                 <p>
-                    <a onclick="gotocountry('af')"> Afghanistan</a>
-                    <a onclick="gotocountry('tn')"> Tunisia</a>
+                    <a onclick="gotocountry('af')">Allez en Afghanistan</a><br/>
+                    <a onclick="gotocountry('tn')">Allez en Tunisia</a><br/>
+                    <a onclick="addGeojson()">Projets d'Eau</a>
                 </p>
-
-                <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-
-                <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
 
                 <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
 
@@ -76,10 +73,15 @@
     <div id="map" class="map"></div>
     <!-- end of the map -->
 
-    <!-- The scripts go here -->
+	<!-- The scripts go here -->
+	
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="http://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 	<script src="leaflet-providers.js"></script>
 	<script src="leaflet-sidebar.js"></script>
+	<!-- Add jQuery -->
+	<script src="leaflet-ajax/dist/leaflet.ajax.js"></script>
 	<script>
 		var map = L.map('map', {
 			center: [7.3, 12.3],
@@ -114,8 +116,23 @@
 			'Geoportail France Orthos': L.tileLayer.provider('GeoportailFrance.orthos'),
 			'Geoportail France classic maps': L.tileLayer.provider('GeoportailFrance.ignMaps')
 		};
+		
+		// loading geojson data
+		// var geojsonLayer = new L.geoJson.ajax("map.geojson").addTo(map);
+		$(function() {
+			$.ajax({
+				type: 'GET',
+				url: 'map.json', // js is lowercase!
+				dataType: 'json',
+				success: function(data) {
+					var kildare = new L.geoJSON.ajax(data).addTo(map);
+			// console.log('success',data);
+			}
+		});
+		});
 
 		var overlayLayers = {
+			"kildare" : kildare,
 			'OpenSeaMap': L.tileLayer.provider('OpenSeaMap'),
 			'OpenWeatherMap Clouds': L.tileLayer.provider('OpenWeatherMap.Clouds'),
 			'OpenWeatherMap CloudsClassic': L.tileLayer.provider('OpenWeatherMap.CloudsClassic'),
@@ -135,7 +152,7 @@
 
 
 		L.control.sidebar('sidebar').addTo(map);
-
+		
 		function gotocountry (c){
         // you get  afghanistan coordinates from google 
         // this is how to update information on the map through
@@ -144,6 +161,9 @@
          if(c=='tn')
          map.setView(new L.LatLng(34,9), 6);
         return;
+        }
+		function addGeojson (c){
+			alert('got in');
         }
 
 
