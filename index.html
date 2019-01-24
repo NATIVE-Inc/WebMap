@@ -44,9 +44,10 @@
                 </h1>
 
                 <p>
-                    <a onclick="gotocountry('af')">Allez en Afghanistan</a><br/>
-                    <a onclick="gotocountry('tn')">Allez en Tunisia</a><br/>
-                    <a onclick="addGeojson()">Projets d'Eau</a>
+                    <a onclick="gotocountry('af')">Allez en Afghanistan</a><br/><br/>
+                    <a onclick="gotocountry('tn')">Allez en Tunisia</a><br/><br/>
+                    <a onclick="addGeojson('yde')">Point Sur Yaounde</a><br/><br/>
+                    <a onclick="addGeojson('pent')">Pentagone</a><br/><br/>
                 </p>
 
                 <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
@@ -117,22 +118,8 @@
 			'Geoportail France classic maps': L.tileLayer.provider('GeoportailFrance.ignMaps')
 		};
 		
-		// loading geojson data
-		// var geojsonLayer = new L.geoJson.ajax("map.geojson").addTo(map);
-		$(function() {
-			$.ajax({
-				type: 'GET',
-				url: 'map.json', // js is lowercase!
-				dataType: 'json',
-				success: function(data) {
-					var kildare = new L.geoJSON.ajax(data).addTo(map);
-			// console.log('success',data);
-			}
-		});
-		});
-
+		
 		var overlayLayers = {
-			"kildare" : kildare,
 			'OpenSeaMap': L.tileLayer.provider('OpenSeaMap'),
 			'OpenWeatherMap Clouds': L.tileLayer.provider('OpenWeatherMap.Clouds'),
 			'OpenWeatherMap CloudsClassic': L.tileLayer.provider('OpenWeatherMap.CloudsClassic'),
@@ -147,31 +134,65 @@
 			'OpenWeatherMap Snow': L.tileLayer.provider('OpenWeatherMap.Snow'),
 			'Geoportail France Parcels': L.tileLayer.provider('GeoportailFrance.parcels')
 		};
-
+		
 		L.control.layers(baseLayers, overlayLayers, {collapsed: true}).addTo(map);
-
-
+		
+		
 		L.control.sidebar('sidebar').addTo(map);
 		
 		function gotocountry (c){
-        // you get  afghanistan coordinates from google 
-        // this is how to update information on the map through
-         if(c=='af')
-         map.setView(new L.LatLng(34.5333, 69.1333), 6);
-         if(c=='tn')
-         map.setView(new L.LatLng(34,9), 6);
-        return;
+			// you get  afghanistan coordinates from google 
+			// this is how to update information on the map through
+			if(c=='af')
+			map.setView(new L.LatLng(34.5333, 69.1333), 6);
+			if(c=='tn')
+			map.setView(new L.LatLng(34,9), 6);
+			return;
         }
+			// L.geoJSON().clearLayers();
+			// alert('got in yde')
+			// loading geojson data
+			var myLines = [{
+				"type": "FeatureCollection",
+				"features": [
+					{
+						"type": "Feature",
+						"properties": {},
+						"geometry": {
+							"type": "Point",
+							"coordinates": [
+								11.4697265625,
+								3.847812430239486
+							]
+						}
+					}
+				]
+			}];
+			
+			var myStyle = {
+				"color": "#ff7800",
+				"weight": 5,
+				"opacity": 0.65
+			};
+			var lineOnMap = L.geoJSON(myLines, {style: myStyle});
 		function addGeojson (c){
-			alert('got in');
-        }
-
+			if(c == 'yde'){
+				lineOnMap.addTo(map);
+			}
+			else if(c == 'pent'){
+				if(map.hasLayer(lineOnMap)){
+					map.removeLayer(lineOnMap);
+				} else {
+					// do nothing
+				}
+			}
+		}
 
 		// resize layers control to fit into view.
 		function resizeLayerControl () {
 			var layerControlHeight = document.body.clientHeight - (10 + 50);
 			var layerControl = document.getElementsByClassName('leaflet-control-layers-expanded')[0];
-
+			
 			layerControl.style.overflowY = 'auto';
 			layerControl.style.maxHeight = layerControlHeight + 'px';
 		}
