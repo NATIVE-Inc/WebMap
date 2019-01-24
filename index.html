@@ -11,6 +11,8 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
 	<link rel="stylesheet" href="leaflet-sidebar.css" />
+    <!-- include css file -->
+    <link rel="stylesheet" type="text/css" href="style.css">
 	<style>
 		html { height: 100% }
 		body { height: 100%; margin: 0; padding: 0;}
@@ -39,20 +41,46 @@
         <div class="sidebar-content">
             <div class="sidebar-pane" id="home">
                 <h1 class="sidebar-header">
-                    sidebar-v2
+                    FEICOM - L'Observatoire du Developpement Locale Gilbert Biwole
                     <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
                 </h1>
 
-                <p>
+                <!-- <p>
                     <a onclick="gotocountry('af')">Allez en Afghanistan</a><br/><br/>
                     <a onclick="gotocountry('tn')">Allez en Tunisia</a><br/><br/>
                     <a onclick="addGeojson('yde')">Point Sur Yaounde</a><br/><br/>
-                    <a onclick="addGeojson('pent')">Pentagone</a><br/><br/>
-                </p>
-
-                <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-
-                <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+                    <a onclick="addGeojson('clear')">Pentagone</a><br/><br/>
+                </p> -->
+				<section class="ac-container">
+					<div>
+						<input id="ac-1" name="accordion-1" type="radio">
+						<label for="ac-1" onclick="addGeojson('yde')">Yaounde</label>
+						<article class="ac-small">
+							<p>Well, the way they make shows is, they make one show. That show's called a pilot. Then they show that show to the people who make shows, and on the strength of that one show they decide if they're going to make more shows.</p>
+						</article>
+					</div>
+					<div>
+						<input id="ac-2" name="accordion-1" type="radio">
+						<label for="ac-2" onclick="addGeojson('eau')">Projets de L'Eau</label>
+						<article class="ac-medium">
+							<p>Like you, I used to think the world was this great place where everybody lived by the same standards I did, then some kid with a nail showed me I was living in his world, a world where chaos rules not order, a world where righteousness is not rewarded. That's Cesar's world, and if you're not willing to play by his rules, then you're gonna have to pay the price. </p>
+						</article>
+					</div>
+					<div>
+						<input id="ac-3" name="accordion-1" type="radio">
+						<label for="ac-3">Comptes Administratif</label>
+						<article class="ac-large">
+							<p>You think water moves fast? You should see ice. It moves like it has a mind. Like it knows it killed the world once and got a taste for murder. After the avalanche, it took us a week to climb out. Now, I don't know exactly when we turned on each other, but I know that seven of us survived the slide... and only five made it out. Now we took an oath, that I'm breaking now. We said we'd say it was the snow that killed the other two, but it wasn't. Nature is lethal but it doesn't hold a candle to man. </p>
+						</article>
+					</div>
+					<div>
+						<input id="ac-4" name="accordion-1" type="radio">
+						<label for="ac-4" onclick="addGeojson('pop')">Population</label>
+						<article class="ac-large">
+							<p>You see? It's curious. Ted did figure it out - time travel. And when we get back, we gonna tell everyone. How it's possible, how it's done, what the dangers are. But then why fifty years in the future when the spacecraft encounters a black hole does the computer call it an 'unknown entry event'? Why don't they know? If they don't know, that means we never told anyone. And if we never told anyone it means we never made it back. Hence we die down here. Just as a matter of deductive logic. </p>
+						</article>
+					</div>
+				</section>
             </div>
 
             <div class="sidebar-pane" id="profile">
@@ -83,122 +111,7 @@
 	<script src="leaflet-sidebar.js"></script>
 	<!-- Add jQuery -->
 	<script src="leaflet-ajax/dist/leaflet.ajax.js"></script>
-	<script>
-		var map = L.map('map', {
-			center: [7.3, 12.3],
-			zoom: 6
-		});
-
-		var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
-
-		var baseLayers = {
-			'OpenStreetMap Default': defaultLayer,
-			'OpenStreetMap German Style': L.tileLayer.provider('OpenStreetMap.DE'),
-			'OpenStreetMap Black and White': L.tileLayer.provider('OpenStreetMap.BlackAndWhite'),
-			'OpenStreetMap H.O.T.': L.tileLayer.provider('OpenStreetMap.HOT'),
-			'Thunderforest OpenCycleMap': L.tileLayer.provider('Thunderforest.OpenCycleMap'),
-			'Thunderforest Transport': L.tileLayer.provider('Thunderforest.Transport'),
-			'Thunderforest Landscape': L.tileLayer.provider('Thunderforest.Landscape'),
-			'Hydda Full': L.tileLayer.provider('Hydda.Full'),
-			'Stamen Toner': L.tileLayer.provider('Stamen.Toner'),
-			'Stamen Terrain': L.tileLayer.provider('Stamen.Terrain'),
-			'Stamen Watercolor': L.tileLayer.provider('Stamen.Watercolor'),
-			'Esri WorldStreetMap': L.tileLayer.provider('Esri.WorldStreetMap'),
-			'Esri DeLorme': L.tileLayer.provider('Esri.DeLorme'),
-			'Esri WorldTopoMap': L.tileLayer.provider('Esri.WorldTopoMap'),
-			'Esri WorldImagery': L.tileLayer.provider('Esri.WorldImagery'),
-			'Esri WorldTerrain': L.tileLayer.provider('Esri.WorldTerrain'),
-			'Esri WorldShadedRelief': L.tileLayer.provider('Esri.WorldShadedRelief'),
-			'Esri WorldPhysical': L.tileLayer.provider('Esri.WorldPhysical'),
-			'Esri OceanBasemap': L.tileLayer.provider('Esri.OceanBasemap'),
-			'Esri NatGeoWorldMap': L.tileLayer.provider('Esri.NatGeoWorldMap'),
-			'Esri WorldGrayCanvas': L.tileLayer.provider('Esri.WorldGrayCanvas'),
-			'Geoportail France Maps': L.tileLayer.provider('GeoportailFrance'),
-			'Geoportail France Orthos': L.tileLayer.provider('GeoportailFrance.orthos'),
-			'Geoportail France classic maps': L.tileLayer.provider('GeoportailFrance.ignMaps')
-		};
-		
-		
-		var overlayLayers = {
-			'OpenSeaMap': L.tileLayer.provider('OpenSeaMap'),
-			'OpenWeatherMap Clouds': L.tileLayer.provider('OpenWeatherMap.Clouds'),
-			'OpenWeatherMap CloudsClassic': L.tileLayer.provider('OpenWeatherMap.CloudsClassic'),
-			'OpenWeatherMap Precipitation': L.tileLayer.provider('OpenWeatherMap.Precipitation'),
-			'OpenWeatherMap PrecipitationClassic': L.tileLayer.provider('OpenWeatherMap.PrecipitationClassic'),
-			'OpenWeatherMap Rain': L.tileLayer.provider('OpenWeatherMap.Rain'),
-			'OpenWeatherMap RainClassic': L.tileLayer.provider('OpenWeatherMap.RainClassic'),
-			'OpenWeatherMap Pressure': L.tileLayer.provider('OpenWeatherMap.Pressure'),
-			'OpenWeatherMap PressureContour': L.tileLayer.provider('OpenWeatherMap.PressureContour'),
-			'OpenWeatherMap Wind': L.tileLayer.provider('OpenWeatherMap.Wind'),
-			'OpenWeatherMap Temperature': L.tileLayer.provider('OpenWeatherMap.Temperature'),
-			'OpenWeatherMap Snow': L.tileLayer.provider('OpenWeatherMap.Snow'),
-			'Geoportail France Parcels': L.tileLayer.provider('GeoportailFrance.parcels')
-		};
-		
-		L.control.layers(baseLayers, overlayLayers, {collapsed: true}).addTo(map);
-		
-		
-		L.control.sidebar('sidebar').addTo(map);
-		
-		function gotocountry (c){
-			// you get  afghanistan coordinates from google 
-			// this is how to update information on the map through
-			if(c=='af')
-			map.setView(new L.LatLng(34.5333, 69.1333), 6);
-			if(c=='tn')
-			map.setView(new L.LatLng(34,9), 6);
-			return;
-        }
-			// L.geoJSON().clearLayers();
-			// alert('got in yde')
-			// loading geojson data
-			var myLines = [{
-				"type": "FeatureCollection",
-				"features": [
-					{
-						"type": "Feature",
-						"properties": {},
-						"geometry": {
-							"type": "Point",
-							"coordinates": [
-								11.4697265625,
-								3.847812430239486
-							]
-						}
-					}
-				]
-			}];
-			
-			var myStyle = {
-				"color": "#ff7800",
-				"weight": 5,
-				"opacity": 0.65
-			};
-			var lineOnMap = L.geoJSON(myLines, {style: myStyle});
-		function addGeojson (c){
-			if(c == 'yde'){
-				lineOnMap.addTo(map);
-			}
-			else if(c == 'pent'){
-				if(map.hasLayer(lineOnMap)){
-					map.removeLayer(lineOnMap);
-				} else {
-					// do nothing
-				}
-			}
-		}
-
-		// resize layers control to fit into view.
-		function resizeLayerControl () {
-			var layerControlHeight = document.body.clientHeight - (10 + 50);
-			var layerControl = document.getElementsByClassName('leaflet-control-layers-expanded')[0];
-			
-			layerControl.style.overflowY = 'auto';
-			layerControl.style.maxHeight = layerControlHeight + 'px';
-		}
-		map.on('resize', resizeLayerControl);
-		resizeLayerControl();
-	</script>
+	<script src="script.js"></script>
 	<!-- end of scripts -->
 
 </body>
