@@ -96,6 +96,7 @@
     overflow-y: hidden; }
 
 .sidebar-pane {
+  height: 100%;
   display: none;
   left: 0;
   right: 0;

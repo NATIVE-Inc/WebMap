@@ -1,2 +1,5 @@
 To-Do
 
+update success and failure messages for imports
+test uploads from qgis
+custom icons

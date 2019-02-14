@@ -104,15 +104,15 @@
 }
 
 .ac-container input:checked ~ article.ac-small {
-    height: 140px;
+    height: auto;
 }
 
 .ac-container input:checked ~ article.ac-medium {
-    height: 180px;
+    height: auto;
 }
 
 .ac-container input:checked ~ article.ac-large {
-    height: 230px;
+    height: auto;
 }
 
 /* css style for legend */
@@ -126,4 +126,41 @@
     float: left;
     margin-right: 8px;
     opacity: 0.7;
+}
+
+/*upload button css*/
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  margin: 3px 121px 0;
+}
+
+.upload-btn {
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 50px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+
+/*import button css */
+#import-div {
+    height: 100%;
+    display: flex;
+}
+
+#import-btn {
+    margin: auto;
 }

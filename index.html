@@ -10,9 +10,14 @@
 	<!-- Leaflet style. REQUIRED! -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
-	<link rel="stylesheet" href="leaflet-sidebar.css" />
+	<link rel="stylesheet" href="css/leaflet-sidebar.css" />
     <!-- include css file -->
-    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- including bootstrap -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<!-- end of boostrap -->
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 	<style>
 		html { height: 100% }
 		body { height: 100%; margin: 0; padding: 0;}
@@ -22,26 +27,34 @@
 <body>
 	
 	<!-- This is the sidebar  -->
+	
     <div id="sidebar" class="sidebar collapsed">
         <!-- Nav tabs -->
         <div class="sidebar-tabs">
             <ul role="tablist">
                 <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+                <li><a id="mapPage" href="#thematiques" role="tab"><i class="fa fa-map"></i></a></li>
                 <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
                 <!-- <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
                 <li><a href="https://github.com/Turbo87/sidebar-v2" role="tab" target="_blank"><i class="fa fa-github"></i></a></li> -->
             </ul>
 
             <ul role="tablist">
-                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+                <li><a data-toggle="modal" data-target="#exampleModal"><i class="fa fa-upload"></i></a></li>
             </ul>
         </div>
 
         <!-- Tab panes -->
         <div class="sidebar-content">
-            <div class="sidebar-pane" id="home">
+        	<div class="sidebar-pane" id="home">
                 <h1 class="sidebar-header">
                     FEICOM - L'Observatoire du Developpement Locale Gilbert Biwole
+                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+		    </div>
+            <div class="sidebar-pane" id="thematiques">
+                <h1 class="sidebar-header">
+					Cartes Thematiques                    
                     <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
                 </h1>
 
@@ -51,7 +64,7 @@
                     <a onclick="addGeojson('yde')">Point Sur Yaounde</a><br/><br/>
                     <a onclick="addGeojson('clear')">Pentagone</a><br/><br/>
                 </p> -->
-				<section class="ac-container">
+				<section id="thematiqueList" class="ac-container">
 					<div>
 						<input id="ac-1" name="accordion-1" type="radio">
 						<label for="ac-1" onclick="addGeojson('yde')">Yaounde</label>
@@ -92,12 +105,46 @@
                 <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
             </div>
 
-            <div class="sidebar-pane" id="settings">
-                <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-            </div>
         </div>
     </div>
 	<!-- end of sidebar -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Importer Couches</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	       <form method="post" id="fileinfo" name="fileinfo" onsubmit="return submitForm();">
+	            <div class="form-group">
+	              <div class="col-md-12">
+	                <label>Titre</label>
+	                <input id='title_carte' type="text" class="form-control" aria-describedby="emailHelp" name="first_name" placeholder="Titre Thematique" required>
+	              </div>
+	              <div class="col-md-12">
+	                <label >Description</label>
+	                <textarea id="descr_carte" type="text" class="form-control" aria-describedby="emailHelp" name="last_name" placeholder="Informations sur la carte" required></textarea>
+	              </div><br/>
+	              <div class="col-md-12">
+		              <label class="control-label">Selectioner le fichier</label>
+					  <input type="file" name="file" class="filestyle" data-icon="false" accept=".json" required>
+	              </div>
+	            </div>
+	            <div class="modal-footer">
+	              <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+	              <button type="submit" class="btn btn-primary">Ajouter</button>
+	            </div>
+	          </form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- end of modal -->
 
 	<!-- The map goes here -->
     <div id="map" class="map"></div>
@@ -106,14 +153,54 @@
 	<!-- The scripts go here -->
 	
 	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="http://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-	<script src="leaflet-providers.js"></script>
-	<script src="leaflet-sidebar.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="js/leaflet.ajax.min.js"></script>
+	<script src="js/leaflet-providers.js"></script>
+	<script src="js/leaflet-sidebar.js"></script>
 	<!-- Add jQuery -->
-	<script src="leaflet-ajax/dist/leaflet.ajax.js"></script>
-	<script src="script.js"></script>
+	<script src="js/leaflet-ajax/dist/leaflet.ajax.js"></script>
+	<script src="js/script.js"></script>
 	<!-- end of scripts -->
+
+
+	<script src="js/bootstrap.min.js" ></script>
+	<script type="text/javascript">
+        function submitForm() {
+            console.log("submit event");
+            var fd = new FormData(document.getElementById("fileinfo"));
+            fd.append("title", document.getElementById("title_carte").value);
+            fd.append("descr", document.getElementById("descr_carte").value);
+            $.ajax({
+              url: "js/upload.php",
+              type: "POST",
+              data: fd,
+              processData: false,  // tell jQuery not to process the data
+              contentType: false   // tell jQuery not to set contentType
+            }).done(function( data ) {
+                console.log("PHP Output: " + data );
+                $('.modal').modal('hide');
+                $('.modal').on('hidden.bs.modal', function(){
+				    //$(this).removeData('bs.modal');
+				    $(':input','#descr_carte').val("");
+				});
+            });
+            return false;
+        };
+
+        // refresh list of maps
+		    $("#mapPage").click(function() { 
+		      $.ajax({    //create an ajax request to js/display.php
+		        type: "GET",
+		        url: "js/loadThematiques.php",             
+		        dataType: "html",   //expect html to be returned                
+		        success: function(response){                    
+		            $("#thematiqueList").html(response); 
+		            //alert(response);
+		        }
+			    });
+			});
+    </script>
 
 </body>
 </html>
