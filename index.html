@@ -120,19 +120,19 @@
 	        </button>
 	      </div>
 	      <div class="modal-body">
-	       <form method="post" id="fileinfo" name="fileinfo" onsubmit="return submitForm();">
+	       <form id="fileinfo" name="fileinfo" action="js/upload.php" onsubmit="return submitForm()" enctype="multipart/form-data">
 	            <div class="form-group">
 	              <div class="col-md-12">
 	                <label>Titre</label>
-	                <input id='title_carte' type="text" class="form-control" aria-describedby="emailHelp" name="first_name" placeholder="Titre Thematique" required>
+	                <input id='title_carte' type="text" class="form-control" aria-describedby="emailHelp" name="title" placeholder="Titre Thematique" required>
 	              </div>
 	              <div class="col-md-12">
 	                <label >Description</label>
-	                <textarea id="descr_carte" type="text" class="form-control" aria-describedby="emailHelp" name="last_name" placeholder="Informations sur la carte" required></textarea>
+	                <textarea id="descr_carte" type="text" class="form-control" aria-describedby="emailHelp" name="descr" placeholder="Informations sur la carte" required></textarea>
 	              </div><br/>
 	              <div class="col-md-12">
 		              <label class="control-label">Selectioner le fichier</label>
-					  <input type="file" name="file" class="filestyle" data-icon="false" accept=".json" required>
+					  <input type="file" name="fileToUpload" id="fileToUpload" class="filestyle" data-icon="false" accept=".json, .geojson" required>
 	              </div>
 	            </div>
 	            <div class="modal-footer">
@@ -179,27 +179,33 @@
               contentType: false   // tell jQuery not to set contentType
             }).done(function( data ) {
                 console.log("PHP Output: " + data );
+                // reset form when done
+			    $("#fileinfo").trigger('reset'); 
                 $('.modal').modal('hide');
-                $('.modal').on('hidden.bs.modal', function(){
-				    //$(this).removeData('bs.modal');
-				    $(':input','#descr_carte').val("");
-				});
+
+                // reload maps list
+                loadThematiques();
             });
             return false;
         };
+        
 
-        // refresh list of maps
-		    $("#mapPage").click(function() { 
-		      $.ajax({    //create an ajax request to js/display.php
-		        type: "GET",
-		        url: "js/loadThematiques.php",             
-		        dataType: "html",   //expect html to be returned                
-		        success: function(response){                    
-		            $("#thematiqueList").html(response); 
-		            //alert(response);
-		        }
-			    });
-			});
+        // load list of thematique maps
+	    function loadThematiques() { 
+	      $.ajax({    //create an ajax request to js/display.php
+	        type: "GET",
+	        url: "js/loadThematiques.php",             
+	        dataType: "html",   //expect html to be returned                
+	        success: function(response){                    
+	            $("#thematiqueList").html(response); 
+	            //alert(response);
+	        }
+		    });
+		};
+
+		$( document ).ready(function() {
+		    loadThematiques();
+		});
     </script>
 
 </body>

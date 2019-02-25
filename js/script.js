@@ -116,77 +116,102 @@ function createCustomIcon (feature, latlng) {
     pointToLayer: createCustomIcon
   }
 
-
-
-// this section is the styling for the data
-var myStyle = {
-    "color": "#ff7800",
-    "weight": 5,
-    "opacity": 0.65
-};
-
 // all the layers go into this layer group
 var layerGroup = L.layerGroup().addTo(map);
 // function to use data
 function addGeojson (c){
     // remove all the markers in one group
     layerGroup.clearLayers();
-    // switch(c) {
-    //     case 'yde':
-    //         // code block
-    //         yde.addTo(layerGroup);
-    //         break;
-    //     case 'eau':
-    //         // code block
-    //         eau.addTo(layerGroup);
-    //         break;
-    //     case 'pop':
-    //         // code block
-    //         pop.addTo(layerGroup);
-    //         legend.addTo(layerGroup);
-    //         break;
-    //     default:
-    //       // code block
-    // }
-    // the argument c is the name of the map in the db and the filename with extension .json
-    var currentLayer = new L.GeoJSON.AJAX("layers/" + c, {
-      onEachFeature: function (feature, layer) {
-        layer.bindPopup('<h1>'+geometry.type+'</h1><p>name: '+feature.type+'</p>');    // adding pop from data in json file
-      }
+    console.log(c);
+    var currentLayer = new L.GeoJSON.AJAX("js/layers/" + c, {
+    onEachFeature: onEachFeature
     }).addTo(layerGroup);
 }
 
+// add features to individual markers 
+function onEachFeature(feature, layer) {
+    // does this feature have a property named popupContent?
+    if (feature.properties && feature.properties.name) {
+        console.log(feature.properties.name);
+        layer.bindPopup(feature.properties.name);
+    }
+}
 // function for chlorpleth map
 // used for population coloration
-function getColor(d) {
-    return d > 1000 ? '#800026' :
-           d > 500  ? '#BD0026' :
-           d > 200  ? '#E31A1C' :
-           d > 100  ? '#FC4E2A' :
-           d > 50   ? '#FD8D3C' :
-           d > 20   ? '#FEB24C' :
-           d > 10   ? '#FED976' :
-                      '#FFEDA0';
-}
+// function getColor(d) {
+//     return d > 1000 ? '#800026' :
+//            d > 500  ? '#BD0026' :
+//            d > 200  ? '#E31A1C' :
+//            d > 100  ? '#FC4E2A' :
+//            d > 50   ? '#FD8D3C' :
+//            d > 20   ? '#FEB24C' :
+//            d > 10   ? '#FED976' :
+//                       '#FFEDA0';
+// }
 
-function style(feature) {
-    return {
-        fillColor: getColor(feature.properties.density),
-        weight: 1,
-        opacity: 1,
-        color: 'white',
-        fillOpacity: 0.7
-    };
-}
+// function style(feature) {
+//     return {
+//         fillColor: getColor(feature.properties.density),
+//         weight: 1,
+//         opacity: 1,
+//         color: 'white',
+//         fillOpacity: 0.7
+//     };
+// }
 // end of styling functions
 
 // resize layers control to fit into view.
-function resizeLayerControl () {
-    var layerControlHeight = document.body.clientHeight - (10 + 50);
-    var layerControl = document.getElementsByClassName('leaflet-control-layers-expanded')[0];
+// function resizeLayerControl () {
+//     var layerControlHeight = document.body.clientHeight - (10 + 50);
+//     var layerControl = document.getElementsByClassName('leaflet-control-layers-expanded')[0];
     
-    layerControl.style.overflowY = 'auto';
-    layerControl.style.maxHeight = layerControlHeight + 'px';
-}
-map.on('resize', resizeLayerControl);
-resizeLayerControl();
+//     layerControl.style.overflowY = 'auto';
+//     layerControl.style.maxHeight = layerControlHeight + 'px';
+// }
+// map.on('resize', resizeLayerControl);
+// resizeLayerControl();
+/*
+var LeafIcon = L.Icon.extend({
+    options: {
+        shadowUrl: 'leaf-shadow.png',
+        iconSize:     [38, 95],
+        shadowSize:   [50, 64],
+        iconAnchor:   [22, 94],
+        shadowAnchor: [4, 62],
+        popupAnchor:  [-3, -76]
+    }
+});
+Now we can create all three of our leaf icons from this class and use them:
+
+var greenIcon = new LeafIcon({iconUrl: 'leaf-green.png'}),
+    redIcon = new LeafIcon({iconUrl: 'leaf-red.png'}),
+    orangeIcon = new LeafIcon({iconUrl: 'leaf-orange.png'});
+
+    L.marker([51.5, -0.09], {icon: greenIcon}).addTo(map);
+
+
+    // create custom icon
+IconStyleOne = L.icon({
+            iconUrl: 'img/image1.png'
+        });
+IconStyleTwo = L.icon({
+            iconUrl: 'img/image2.png'
+        });
+
+// ...
+
+//Create empty geojson with mouseover and mouseout events
+geojson_feature = L.geoJson(false, {
+    pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {icon: IconStyleOne});
+    },
+    onEachFeature: function(feature,layer)
+            {
+            layer.on("mouseover",function(e){
+                layer.setIcon(IconStyleOne)
+            });
+            layer.on("mouseout",function(e){
+                layer.setIcon(IconStyleTwo)
+            });
+            }
+}).addTo(this.map);*/

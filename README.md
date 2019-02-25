@@ -11,8 +11,13 @@ INC - Institute National de la Cartographie
 Clone github repository  
 Open Index.html file  
 
+## Export Qgis
+create layer
+Export layer
+- *change CRS to* Default CRS: EPSG:4326 `important`
+
 ## To do
-Display geojson data on maps  
+[x] Display geojson data on maps  
 Add editing tools on map 
 
 
