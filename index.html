@@ -51,6 +51,33 @@
                     FEICOM - L'Observatoire du Developpement Locale Gilbert Biwole
                     <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
                 </h1>
+                <!-- list of maps with predefined data -->
+                <!-- addGeojson
+                	functiont to call for the layers on top of the map -->
+                <section id="thematiqueList2" class="ac-container">
+					<div>
+						<input id="ac-1" name="accordion-1" type="radio">
+						<label for="ac-1">Reversement de la Dette</label>
+						<article class="ac-small">
+							<ul>
+	                			<li><label for="ac-1" onclick="addGeojson('yde')">2014</label></li>
+	                			<li>2015</li>
+	                		</ul>	
+						</article>
+					</div>
+					<div>
+						<input id="ac-2" name="accordion-1" type="radio">
+						<label for="ac-2" onclick="addGeojson('eau')">Projets de L'Eau</label>
+						<article class="ac-medium">
+						</article>
+					</div>
+					<div>
+						<input id="ac-4" name="accordion-1" type="radio">
+						<label for="ac-4" onclick="addGeojson('pop')">Sante</label>
+						<article class="ac-large">
+						</article>
+					</div>						
+				</section>
 		    </div>
             <div class="sidebar-pane" id="thematiques">
                 <h1 class="sidebar-header">

@@ -75,18 +75,19 @@ function gotocountry (c){
 // its better to called geojson data from its file which makes the data easier to update
 
 // this section are the variables holding data
-var yde = new L.GeoJSON.AJAX("layers/yde.json");
-var eau = new L.GeoJSON.AJAX("layers/eau.json");
-var pop = new L.GeoJSON.AJAX("layers/pop.json");
+// var yde = new L.GeoJSON.AJAX("layers/yde.json");
+// var eau = new L.GeoJSON.AJAX("layers/eau.json");
+// var pop = new L.GeoJSON.AJAX("layers/pop.json");
 var legend = L.control({position: 'bottomright'});
 
 legend.onAdd = function (map) {
 
     var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+        grades = [0, 10000, 20000, 50000, 100000, 200000, 500000, 1000000],  // put values here for legend coloration
         labels = [];
 
     // loop through our density intervals and generate a label with a colored square for each interval
+    div.innerHTML += '<p>Population en 2005</p>';
     for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
             '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
@@ -95,6 +96,8 @@ legend.onAdd = function (map) {
 
     return div;
 };
+
+
 
 // changing icons
 // replace Leaflet's default blue marker with a custom icon
@@ -126,38 +129,64 @@ function addGeojson (c){
     var currentLayer = new L.GeoJSON.AJAX("js/layers/" + c, {
     onEachFeature: onEachFeature
     }).addTo(layerGroup);
+    legend.addTo(map); // adds legend to map
 }
 
 // add features to individual markers 
 function onEachFeature(feature, layer) {
     // does this feature have a property named popupContent?
-    if (feature.properties && feature.properties.name) {
-        console.log(feature.properties.name);
-        layer.bindPopup(feature.properties.name);
+    if (feature.properties && feature.properties.ADM2) {
+        layer.bindPopup('<b>' + feature.properties.ADM2 + '</b><br/><b>Pop: </b>' + (feature.properties.POP).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' Hb/km2'); // string format to thousand .toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    }
+
+    // styling each individual department
+    layer.setStyle({weight: 0, fillOpacity : 0, strokeOpacity : 0});
+    // ADM3 -- fillColor
+    if (feature.properties.POP != '-') {  // checks if population exists
+        theColor = getColor(feature.properties.POP); // gets color based on pop
+        layer.setStyle({fillColor :theColor, stroke : theColor}); // stroke and fill color are thesame
+    }
+
+    // ADM4 -- fill opacity
+    if (feature.properties.POP != '-') {
+        theOpacity = getOpacity(feature.properties.POP);
+        layer.setStyle({fillOpacity :theOpacity, strokeOpacity : theOpacity});
     }
 }
 // function for chlorpleth map
 // used for population coloration
-// function getColor(d) {
-//     return d > 1000 ? '#800026' :
-//            d > 500  ? '#BD0026' :
-//            d > 200  ? '#E31A1C' :
-//            d > 100  ? '#FC4E2A' :
-//            d > 50   ? '#FD8D3C' :
-//            d > 20   ? '#FEB24C' :
-//            d > 10   ? '#FED976' :
-//                       '#FFEDA0';
-// }
+function getColor(d) {
+    return d > 1000000 ? '#800026' :
+           d > 500000  ? '#BD0026' :
+           d > 200000  ? '#E31A1C' :
+           d > 100000  ? '#FC4E2A' :
+           d > 50000   ? '#FD8D3C' :
+           d > 20000   ? '#FEB24C' :
+           d > 10000   ? '#FED976' :
+                      '#FFEDA0';
+}
 
-// function style(feature) {
-//     return {
-//         fillColor: getColor(feature.properties.density),
-//         weight: 1,
-//         opacity: 1,
-//         color: 'white',
-//         fillOpacity: 0.7
-//     };
-// }
+// opacity gradient for population variations 
+function getOpacity(d) {
+    return d > 1000000 ? '0.7' :
+           d > 500000  ? '0.6' :
+           d > 200000  ? '0.5' :
+           d > 100000  ? '0.4' :
+           d > 50000   ? '0.3' :
+           d > 20000   ? '0.2' :
+           d > 10000   ? '0.1' :
+                      '0.0';
+}
+
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.density),
+        weight: 1,
+        opacity: 1,
+        color: 'white',
+        fillOpacity: 0.7
+    };
+}
 // end of styling functions
 
 // resize layers control to fit into view.
